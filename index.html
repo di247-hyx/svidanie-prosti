@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Свидание 🤍</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff6f4; --card:#ffffff; --ink:#4a2630; --muted:#8a6671; --rose:#c2305f; --rose-ink:#ffffff;
+  --blush:#fbd5de; --line:#f1c4cf; --sel:#fde7ec;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#2a141b; --card:#3a1e28; --ink:#ffe9ee; --muted:#d9aab8; --rose:#ff7fa3; --rose-ink:#3a0f1d;
+    --blush:#5a2c3b; --line:#6b3547; --sel:#51283a; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#2a141b; --card:#3a1e28; --ink:#ffe9ee; --muted:#d9aab8; --rose:#ff7fa3; --rose-ink:#3a0f1d;
+  --blush:#5a2c3b; --line:#6b3547; --sel:#51283a; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Nunito",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.55;overflow-x:hidden}
+.wrap{max-width:560px;margin:0 auto;padding:28px 18px 56px}
+
+/* floating hearts, the one decorative moment */
+.hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.hearts span{position:absolute;bottom:-40px;font-size:20px;opacity:0;animation:rise 9s linear infinite}
+@keyframes rise{0%{transform:translateY(0) rotate(0);opacity:0}10%{opacity:.55}90%{opacity:.4}100%{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){.hearts{display:none}.pop{animation:none!important}}
+main{position:relative;z-index:1}
+
+.hero{text-align:center;padding:26px 6px 10px}
+.pets{font-size:clamp(30px,9vw,44px);font-weight:900;line-height:1.12;margin:0 0 12px;letter-spacing:-.01em;color:var(--rose)}
+.lead{font-size:19px;font-weight:600;margin:0 auto;max-width:30ch}
+.datechip{display:inline-block;margin-top:18px;padding:8px 18px;border-radius:999px;background:var(--blush);font-weight:800}
+
+h2{font-size:21px;font-weight:800;margin:40px 0 6px}
+.hint{margin:0 0 14px;color:var(--muted);font-size:15px}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{font:inherit;color:inherit;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px 12px;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-height:104px}
+.opt .e{font-size:30px;line-height:1}
+.opt .t{font-weight:800;font-size:16px;line-height:1.25}
+.opt[aria-pressed="true"]{border-color:var(--rose);background:var(--sel);box-shadow:0 0 0 3px color-mix(in srgb,var(--rose) 25%,transparent)}
+.opt:focus-visible,.btn:focus-visible,input:focus-visible,.chip:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+
+.timebox{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.chip{font:inherit;color:inherit;font-weight:700;border:2px solid var(--line);background:var(--card);border-radius:999px;padding:10px 16px;cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--rose);background:var(--sel)}
+input[type=time]{font:inherit;color:inherit;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:9px 12px}
+
+/* ticket: the memorable element */
+.ticket{position:relative;background:var(--card);border:2px solid var(--line);border-radius:22px;padding:22px 20px;margin-top:40px}
+.ticket::before,.ticket::after{content:"";position:absolute;top:50%;width:26px;height:26px;border-radius:50%;background:var(--bg);border:2px solid var(--line);transform:translateY(-50%)}
+.ticket::before{left:-15px;clip-path:inset(0 0 0 50%)}
+.ticket::after{right:-15px;clip-path:inset(0 50% 0 0)}
+.row{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:10px 0}
+.row+.row{border-top:2px dashed var(--line)}
+.row b{display:block;font-size:14px;color:var(--muted);font-weight:700}
+.row div{font-size:17px;font-weight:700}
+.row p{margin:2px 0 0;font-weight:600;font-size:16px}
+
+.final{text-align:center;margin-top:44px}
+.final h2{margin-top:0}
+.btns{display:flex;flex-direction:column;gap:12px;align-items:center;position:relative;min-height:130px}
+.btn{font:inherit;font-weight:800;font-size:18px;border:0;border-radius:999px;padding:15px 30px;cursor:pointer;background:var(--rose);color:var(--rose-ink);width:min(100%,320px)}
+.btn.soft{background:var(--blush);color:var(--ink);transition:transform .25s}
+.btn.link{display:block;text-decoration:none;text-align:center;font-size:16px;padding:12px 24px}
+
+#done{display:none;margin-top:10px}
+#done.show{display:block}
+.pop{animation:pop .5s ease-out}
+@keyframes pop{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+.summary{background:var(--card);border:2px solid var(--rose);border-radius:20px;padding:18px;text-align:left;white-space:pre-line;font-weight:700;margin:14px 0}
+.big{font-size:56px;line-height:1}
+.share{display:flex;flex-direction:column;gap:10px;align-items:center}
+.small{color:var(--muted);font-size:14px;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="hearts" aria-hidden="true" id="hearts"></div>
+<main class="wrap">
+
+  <section class="hero">
+    <h1 class="pets">Жаным, жүрегім, кішкентай ақ бөпем 🤍</h1>
+    <p class="lead">Сізді свиданиеге шақырамын</p>
+    <span class="datechip">08.11.2026</span>
+  </section>
+
+  <section>
+    <h2>Қайда барғыңыз келеді?</h2>
+    <p class="hint">Біреуін таңдаңыз</p>
+    <div class="grid" id="acts" role="group" aria-label="Қайда барғыңыз келеді">
+      <button class="opt" aria-pressed="false" data-v="Құмыра жасау"><span class="e">🏺</span><span class="t">Құмыра жасау</span></button>
+      <button class="opt" aria-pressed="false" data-v="Арт-терапия, сурет салу"><span class="e">🎨</span><span class="t">Арт-терапия, сурет салу</span></button>
+      <button class="opt" aria-pressed="false" data-v="Шоппер жасау және безендіру"><span class="e">👜</span><span class="t">Шоппер жасау және безендіру</span></button>
+      <button class="opt" aria-pressed="false" data-v="Мишка бояу"><span class="e">🧸</span><span class="t">Мишка бояу</span></button>
+      <button class="opt" aria-pressed="false" data-v="Айнаны өз қолыңызбен безендіру"><span class="e">🪞</span><span class="t">Айнаны өз қолыңызбен безендіру</span></button>
+      <button class="opt" aria-pressed="false" data-v="Мүсіндеу (лепка)"><span class="e">🤲</span><span class="t">Мүсіндеу (лепка)</span></button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Қай уақытта?</h2>
+    <p class="hint">Уақытты өзіңіз таңдаңыз немесе істеріңізді бітірген соң</p>
+    <div class="timebox">
+      <input type="time" id="time" aria-label="Уақыт">
+      <button class="chip" id="later" aria-pressed="false">Істерімді бітірген соң</button>
+    </div>
+  </section>
+
+  <section class="ticket" aria-label="Свидание туралы ақпарат">
+    <div class="row"><span>📅</span><div><b>Күні</b>08.11.2026</div></div>
+    <div class="row"><span>📍</span><div><b>Мекенжай</b>Серкебаев даңғылы, 146/10<p>Гагарин даңғылы, 310/10</p></div></div>
+    <div class="row"><span>👗</span><div><b>Дресс-код: еркін</b><p>Қандай киім киссеңіз де әдемісіз. Басқалар киіммен әдемі болса, сіз киімді әдемі етесіз.</p></div></div>
+    <div class="row"><span>📸</span><div><b>Ескерту</b><p>Кәсіби видео мен фото түсіріледі. Қаласаңыз, өз Instagram парағыңызға сала аласыз.</p></div></div>
+  </section>
+
+  <section class="final">
+    <h2>Барасыз ба?</h2>
+    <div class="btns" id="btns">
+      <button class="btn" id="yes">Иә, барамын 💗</button>
+      <button class="btn soft" id="no">Ойланайын…</button>
+    </div>
+
+    <div id="done" role="status" aria-live="polite">
+      <div class="big pop">🥰</div>
+      <h2>Рахмет, жаным!</h2>
+      <div class="summary" id="sum"></div>
+      <div class="share">
+        <a class="btn link" id="wa" target="_blank" rel="noopener">WhatsApp арқылы жауап жіберу 💬</a>
+        <button class="btn soft link" id="copy">Көшіріп алу</button>
+      </div>
+      <p class="small">Түймені басыңыз, жауап тікелей маған кетеді. Мен сізді күтемін.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  // a few slow hearts in the background
+  var h=document.getElementById('hearts'),sym=['🤍','💗','🤍','💞'];
+  for(var i=0;i<9;i++){var s=document.createElement('span');s.textContent=sym[i%4];
+    s.style.left=(Math.random()*95)+'%';s.style.animationDelay=(Math.random()*9)+'s';
+    s.style.animationDuration=(8+Math.random()*6)+'s';s.style.fontSize=(16+Math.random()*16)+'px';h.appendChild(s);}
+
+  var chosen='';
+  var acts=document.querySelectorAll('.opt');
+  acts.forEach(function(b){b.addEventListener('click',function(){
+    acts.forEach(function(x){x.setAttribute('aria-pressed','false')});
+    b.setAttribute('aria-pressed','true');chosen=b.getAttribute('data-v');
+  });});
+
+  var later=document.getElementById('later'),time=document.getElementById('time');
+  later.addEventListener('click',function(){
+    var on=later.getAttribute('aria-pressed')!=='true';
+    later.setAttribute('aria-pressed',String(on));
+    if(on)time.value='';
+  });
+  time.addEventListener('input',function(){if(time.value)later.setAttribute('aria-pressed','false');});
+
+  // the "think about it" button politely runs away
+  var no=document.getElementById('no'),box=document.getElementById('btns');
+  function dodge(){
+    var maxX=Math.max(0,box.clientWidth/2-130),x=(Math.random()*2-1)*maxX,y=(Math.random()*70)-10;
+    no.style.transform='translate('+x+'px,'+y+'px)';
+    no.textContent='Ойланатын ештеңе жоқ 😄';
+  }
+  no.addEventListener('pointerenter',dodge);
+  no.addEventListener('click',dodge);
+
+  function timeText(){
+    if(time.value)return time.value;
+    if(later.getAttribute('aria-pressed')==='true')return 'Істерімді бітірген соң';
+    return 'Өзің шеш 😊';
+  }
+  document.getElementById('yes').addEventListener('click',function(){
+    var msg='Иә, барамын 💗\nҚайда: '+(chosen||'Өзің шеш 😊')+'\nУақыт: '+timeText()+'\nКүні: 08.11.2026';
+    document.getElementById('sum').textContent=msg;
+    var q=encodeURIComponent(msg);
+    document.getElementById('wa').href='https://wa.me/77768326266?text='+q;
+    document.getElementById('btns').style.display='none';
+    var d=document.getElementById('done');d.classList.add('show');
+    d.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});
+    document.getElementById('copy').onclick=function(){
+      var b=this;
+      try{navigator.clipboard.writeText(msg).then(function(){b.textContent='Көшірілді ✓'},function(){b.textContent='Мәтінді қолмен көшіріңіз'});}
+      catch(e){b.textContent='Мәтінді қолмен көшіріңіз';}
+    };
+  });
+})();
+</script>
+</body>
+</html>
